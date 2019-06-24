@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" type="text/css" media="screen" href="./index.css" />
+<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+         
+            <div class="image">
+                <img src="https://course_report_production.s3.amazonaws.com/rich/rich_files/rich_files/1950/s200/andela.jpg">
+            </div>  
+    </header>
+
+    <section class="sec">
+            
+      <form id="andela_form" method="POST">
+        <h1 id="message">please enter a message to encode:</h1>
+           <textarea name="" id="text" cols="30" rows="10"></textarea>
+           <input type="button" class="button" onclick="square_code()" value="Encode message">
+      </form>
+        <div id="main">    
+        <div id="normalise">
+            <h1 id="color">Normalised Text:</h1>
+            <div id="result" class="fontcolor"><b></b></div>
+        </div>
+        <div id="chunk">
+            <h1 id="color" class="title1">Encoded Text in Chunks:</h1>
+            <p id="output" class="fontcolor"><b></b></p>
+        </div>
+        <div id="encode">
+            <h1 id="color" class="title2">Encoded Message:</h1>
+            <div id="value"class="fontcolor"><b></b></div>
+        </div>
+
+
+            
+    </div>
+    </section>
+    <footer id="footer">
+            <h2><span>written and coded by</span> <a href="http://www.linkedin.com/in/wasiu-ibrahim-28497a137"target="blank"><span>Ibrahim wasiu</span><h2>
+        </footer>
+ </body> 
+ <script>
+  const square_code = string => {
+ if(document.getElementById("text").value === ""){
+     alert("you must enter a message")
+ }else{
+     string = document.getElementById("text").value;
+ }
+  
+  var main = document.getElementById("main")
+  main.style.display = "flex";
+  main.style.flexDirection = "column"
+  main.style.justifyContent = "center"
+  main.style.alignItems = "center"
+  let expression = /[^A-Za-z0-9]/g;
+  let stringToLower = string.toLowerCase();
+  let str = stringToLower.replace(expression, "");
+  
+  
+  
+
+  //we have to find the length of the normalized input
+  let lengthOfString = str.length;
+  
+  //given that c is the number of columns and r is the number of rows
+  //where c >= r understanding that c is either greater than r by 1 or equal r
+  //round off col
+  let col = Math.ceil(Math.sqrt(lengthOfString));
+  //dont round off row length
+  let rowLen = Math.floor(Math.sqrt(lengthOfString));
+  //loop through understanding that col*col === str.length
+  //console.log(col)
+  //we reused function slicestrings
+  let sliceArray = sliceStrings(str, col);
+  let cipherText = "";
+  for (let j = 0; j < sliceArray[0].length; j++) {
+    sliceArray.forEach(arr => (cipherText += arr[j] ? arr[j] : ""));
+  }
+
+  var encodeString = sliceStrings(cipherText, rowLen, true);
+  var div_two = document.getElementById("output");
+  div_two.innerHTML = encodeString.join(" ") ;   
+  
+  
+
+  //alert(encodeString.join(" "));
+  return encodeString.join(" ");
+};
+
+const sliceStrings = (string, sliceLength, horizontal = false) => {
+  const sliceArray = [];
+  for (let i = 0; i < sliceLength * sliceLength; i += sliceLength) {
+    //extracting string value
+    const row = string.slice(i, i + sliceLength);
+   
+    var paragraph = document.createElement('p')
+    paragraph.innerHTML = row 
+    
+    if (!horizontal) {    
+    if(row.trim()){
+       
+        
+        var div_one = document.getElementById("result");
+        div_one.appendChild(paragraph); 
+    }
+
+    }else{
+         
+         var div_three = document.getElementById("value");
+         div_three.appendChild(paragraph); 
+     
+    }
+    sliceArray.push(row);
+
+  }
+
+  return sliceArray;
+};
+
+//square_code("ifmanwasmeanttostayonthegroundgodwouldhavegivenusroots");
+
+</script> 
+ 
+</html>
